@@ -10,7 +10,7 @@ Clonar el proyecto
 Entrar al fichero del proyecto
 
 ```bash
-  cd my-project
+  cd CursoQAFront
 ```
 
 Instalar modulos de node
