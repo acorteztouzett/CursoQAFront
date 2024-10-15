@@ -16,7 +16,7 @@ Entrar al fichero del proyecto
 Instalar modulos de node
 
 ```bash
-  npm i
+  npm i --force
 ```
 
 Iniciar el proyecto
