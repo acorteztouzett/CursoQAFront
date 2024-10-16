@@ -34,7 +34,7 @@ const CreateContactForm = ({ isOpen, onClose }) => {
   const [errors, setErrors] = useState({});
   const toast = useToast();
 
-  const statusOptions = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof."];
+  const statusOptions = ["Sr.", "Sra.", "Srta."];
   const namePattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'´ ]+$/;
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
@@ -93,7 +93,7 @@ const CreateContactForm = ({ isOpen, onClose }) => {
     if (!formContact.phone) {
       newErrors.phone = "Se requiere un número de teléfono";
     } else if (!/^\+?(\d{1,4})?[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})$/.test(formContact.phone)) {
-      newErrors.phone = "Por favor ingresa un número de teléfono válido (solo números, entre 9 y 15 dígitos)";
+      newErrors.phone = "Por favor ingresa un número de teléfono válido (solo números, 9 dígitos)";
     }
     
     if (!formContact.salutation) newErrors.salutation = "Se requiere un prefijo de saludo";

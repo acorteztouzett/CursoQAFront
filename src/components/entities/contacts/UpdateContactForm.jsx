@@ -40,7 +40,7 @@ const UpdateContactForm = ({ contact }) => {
   const toast = useToast();
   const fileInputRef = useRef(null);
 
-  const statusOptions = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof."];
+  const statusOptions = ["Sr.", "Sra.", "Srta."];
   const namePattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ'´ ]+$/;
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {

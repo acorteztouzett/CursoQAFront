@@ -38,9 +38,9 @@ export function ProfileForm() {
       email: user?.email || "",
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
-      username: user?.username || "",
+      username: user?.username || " ",
       phone: user?.phone,
-      bio: user?.bio || "",
+      bio: user?.bio || " ",
     },
     mode: "onChange",
   });
@@ -68,8 +68,7 @@ export function ProfileForm() {
       toast.info("Profile updated! 👌");
       window.location.reload();
     } catch (error) {
-      console.error(error);
-      toast.error("Couldn't update profile, please try again");
+      toast.error(error.data.message);
     }
   }
 
@@ -176,6 +175,7 @@ export function ProfileForm() {
                           <Textarea
                             placeholder="Escribe algo sobre ti"
                             className="resize-none"
+                            required
                             {...field}
                           />
                         </FormControl>
@@ -192,8 +192,8 @@ export function ProfileForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Apodo</FormLabel>
-                        <FormControl isRequired>
-                          <Input placeholder="Mi apodo" value={field.value} {...field} />
+                        <FormControl>
+                          <Input placeholder="Mi apodo" required value={field.value} {...field} />
                         </FormControl>
                         <FormDescription>
                           Escribe tu apodo
@@ -227,6 +227,8 @@ export function ProfileForm() {
                           <Input
                             id="phone"
                             placeholder="999333111"
+                            type="number"
+                            required
                             value={field.value}
                             {...field}
                           />
