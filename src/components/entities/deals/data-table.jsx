@@ -71,7 +71,7 @@ export function DataTable({ columns, data }) {
       try {
         await deleteDeal(deal._id).unwrap();
         dispatch(focusDealById(null));
-        toast.success(`Deal ${deal.id} deletion was successful.`);
+        toast.success(`Se eliminó el pedido correctamente.`);
       } catch (err) {
         console.error(err);
         toast.error(`Failed deleting deal.`);
@@ -91,7 +91,7 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-xl font-bold">Deals - {format(new Date(), "PPP")}</h2>
+      <h2 className="text-xl font-bold">Pedidos - {format(new Date(), "dd/mm/yyyy")}</h2>
       <DataTableToolbar table={table} />
       <div className="rounded-md">
         <Table>
@@ -157,9 +157,9 @@ export function DataTable({ columns, data }) {
                   onClick={() => dispatch(toggleDealDrawer())}
                   colSpan={columns.length}
                   className="h-56 cursor-pointer text-center">
-                  <h3 className="text-lg font-bold tracking-tight">You have no deals</h3>
+                  <h3 className="text-lg font-bold tracking-tight">No tienes pedidos</h3>
                   <p className="text-sm text-muted-foreground">
-                    Click here to add your first 😃.
+                    Click aquí para añadir
                   </p>
                 </TableCell>
               </TableRow>

@@ -19,7 +19,7 @@ export function DataTableToolbar({ table }) {
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter deals..."
+          placeholder="Filtrar pedidos..."
           value={table.getColumn("title")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
@@ -36,15 +36,8 @@ export function DataTableToolbar({ table }) {
         {table.getColumn("stage") && (
           <DataTableFacetedFilter
             column={table.getColumn("stage")}
-            title="Stage"
+            title="Estados"
             options={stages}
-          />
-        )}
-        {table.getColumn("assignee") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("assignee")}
-            title="Assignees"
-            options={assignees}
           />
         )}
         {isFiltered && (

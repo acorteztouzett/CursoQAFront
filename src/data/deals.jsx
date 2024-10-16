@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const schema = z.object({
-  label: z.string().max("69", "Title too long, use the notes").optional(),
+export const schema = z.object({
+  title: z.string().max("69", "Title too long, use the notes").optional(),
   assignee: z
     .object({
       name: z.string().trim().optional(),
@@ -24,13 +24,13 @@ const schema = z.object({
     })
     .optional(),
   stage: z.enum([
-        "New Lead",
-        "Qualified Lead",
-        "In Draft",
-        "Proposal Sent",
-        "Negotiation",
-        "Deal Won",
-        "Deal Lost",
+        "Nuevo",
+        "Pendiente",
+        "Pagado",
+        "Recojo",
+        "Enviando",
+        "Terminado",
+        "Cancelado",
       ]).optional(),
   createdAt: z.date().optional(),
   createdBy: z.string().optional(),
@@ -84,44 +84,44 @@ export const sources = [
 export const stages = [
   {
     id: 1,
-    value: "New Lead",
-    label: "New Lead",
+    value: "Nuevo",
+    label: "Nuevo",
     styleWhenCompleted: "bg-[#2e2e2e] text-neutral-20 hover:bg-[#2e2e2e] hover:text-neutral-20 rounded-l-full",
   },
   {
     id: 2,
-    value: "Qualified Lead",
-    label: "Qualified Lead",
+    value: "Pendiente",
+    label: "Pendiente",
     styleWhenCompleted: "bg-[#2e2e2e] text-neutral-20 hover:bg-[#2e2e2e] hover:text-neutral-20",
   },
   {
     id: 3,
-    value: "In Draft",
-    label: "In Draft",
+    value: "Pagado",
+    label: "Pagado",
     styleWhenCompleted: "bg-[#2e2e2e] text-neutral-20 hover:bg-[#2e2e2e] hover:text-neutral-20",
   },
   {
     id: 4,
-    value: "Proposal Sent",
-    label: "Proposal Sent",
+    value: "Recojo",
+    label: "Recojo",
     styleWhenCompleted: "bg-[#2e2e2e] text-neutral-20 hover:bg-[#2e2e2e] hover:text-neutral-20",
   },
   {
     id: 5,
-    value: "Negotiation",
-    label: "Negotiation",
+    value: "Enviando",
+    label: "Enviando",
     styleWhenCompleted: "bg-[#2e2e2e] text-neutral-20 hover:bg-[#2e2e2e] hover:text-neutral-20",
   },
   {
     id: 6,
-    value: "Deal Won",
-    label: "Deal Won",
+    value: "Terminado",
+    label: "Terminado",
     styleWhenCompleted: "bg-[#2e2e2e] text-white hover:bg-[#19870e] hover:text-neutral-20",
   },
   {
     id: 7,
-    value: "Deal Lost",
-    label: "Deal Lost",
+    value: "Cancelado",
+    label: "Cancelado",
     styleWhenCompleted: "bg-[#2e2e2e] rounded-r-full text-white hover:bg-[#ab0909] hover:text-neutral-20",
   },
 ];

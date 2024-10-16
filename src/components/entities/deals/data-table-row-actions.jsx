@@ -30,7 +30,7 @@ export function DataTableRowActions({ row }) {
         toast.success(`La tarea ${row.original.id} fue borrada con éxito.`);
       } catch (err) {
         console.error(err);
-        toast.error(`Failed deleting deal.`);
+        toast.error(`Error al borrar.`);
       }
     }
   };
@@ -57,7 +57,7 @@ export function DataTableRowActions({ row }) {
           <DropdownMenuItem
             onClick={(e) => e.stopPropagation()}
             onSelect={handleClickView}>
-            Vew
+            Ver
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => e.stopPropagation()}

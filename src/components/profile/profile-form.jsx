@@ -66,6 +66,7 @@ export function ProfileForm() {
     try {
       await editUser({ id: user._id, data }).unwrap();
       toast.info("Profile updated! 👌");
+      window.location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Couldn't update profile, please try again");

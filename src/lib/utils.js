@@ -12,9 +12,9 @@ export const formatter = new Intl.DateTimeFormat('en-GB', {
   weekday: 'short',
 });
 
-export const moneyFormatter = new Intl.NumberFormat('en-US', {
+export const moneyFormatter = new Intl.NumberFormat('es-PE', {
   style: "currency",
-  currency: "USD",
+  currency: "PEN",
 })
 
 export const parser = new DOMParser();

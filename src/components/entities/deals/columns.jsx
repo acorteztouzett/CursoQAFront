@@ -51,7 +51,7 @@ export const columns = [
   {
     accessorKey: "title",
     header: ({ column }) => (
-      <DataTableColumnHeader className="ml-3" column={column} title="Title" />
+      <DataTableColumnHeader className="ml-3" column={column} title="Titulo" />
     ),
     cell: ({ row }) => {
       return (
@@ -67,27 +67,8 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "company",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Company" />,
-    cell: ({ row }) => {
-      const company = row.getValue("company");
-      if (!company)
-        return (
-          <span className="max-w-[200px] truncate text-neutral-70 text-xs">
-            <Plus size="16" />
-          </span>
-        );
-      return (
-        <div className="flex items-center space-x-2">
-          {brands[row.index]}
-          <span className="truncate">{company.name}</span>
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "contact",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="People" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Cliente" />,
     cell: ({ row }) => {
       const contact = row.getValue("contact");
       if (!contact)
@@ -145,7 +126,7 @@ export const columns = [
     filterFn: (row, stage, value) => {
       return value.includes(row.getValue(stage));
     },
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Stage" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Estado" />,
     cell: ({ row }) => {
       const stage = stages.find((stage) => stage.value === row.getValue("stage"));
 
@@ -170,7 +151,7 @@ export const columns = [
   },
   {
     accessorKey: "amount",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Value" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Monto" />,
     cell: ({ row }) => {
       return (
         <div className="flex items-center">
@@ -182,24 +163,12 @@ export const columns = [
     enableSorting: true,
   },
   {
-    accessorKey: "closingDate",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Closed Date" />,
+    accessorKey: "notes",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Notas" />,
     cell: ({ row }) => {
-      const date = new Date(row.getValue("closingDate"));
-      if (date == "Invalid Date")
-        return (
-          <div className="flex items-center space-x-2">
-            <Plus size="16" className="max-w-[200px] truncate text-neutral-70 text-xs" />
-          </div>
-        );
       return (
-        <div className="flex align-middle space-x-2">
-          <div>
-            <CalendarClock color="#6d7076" size="16" />
-          </div>
-          <span className="max-w-[200px] truncate text-neutral-80 text-xs">
-            {format(date, "PPP")}
-          </span>
+        <div className="flex items-center">
+          {row.getValue("notes")}
         </div>
       );
     },

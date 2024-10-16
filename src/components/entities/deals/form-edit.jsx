@@ -44,10 +44,7 @@ export default function ViewDealForm({ deal }) {
       stage: deal.stage,
       assignee: deal.assignee,
       amount: String(deal.amount),
-      closingDate: new Date(deal.closingDate),
-      nextStep: deal.nextStep,
       notes: deal.notes,
-      attachements: deal.attachements,
     },
     mode: "onSubmit",
   });
@@ -57,27 +54,10 @@ export default function ViewDealForm({ deal }) {
     name: "attachements",
   });
 
-  // Redux, Did we really need to use it?
   const dispatch = useDispatch();
   const [editDeal, { isLoading: pendingEdit }] = useEditDealMutation();
   const [deleteDeal, { isLoading: pendingDelete }] = useDeleteDealMutation();
 
-  // File Uploads hooks and state
-  const { startUpload, isUploading } = useUploadThing("multiUploader", {
-    skipPolling: true,
-    onClientUploadComplete: (res) => {
-      append(
-        { name: res[0].name, size: res[0].size, type: res[0].type, url: res[0].url },
-        { shouldValidate: true },
-      );
-    },
-    onUploadError: (error) => {
-      console.error(error);
-      toast.error("OCurrió un error al subir.");
-    },
-  });
-
-  // Handlers
   const handleClickDelete = async () => {
     if (!pendingDelete) {
       try {
@@ -99,7 +79,7 @@ export default function ViewDealForm({ deal }) {
         dispatch(toggleDealDrawer());
       } catch (err) {
         console.error(err);
-        toast.error("Failed Deal Update..");
+        toast.error("Ocurrió un fallo al editar.");
       }
     }
   }
@@ -108,11 +88,11 @@ export default function ViewDealForm({ deal }) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="w-[980px] ml-auto bg-white p-6 md:p-8 lg:p-10 flex flex-col gap-6 rounded-l-xl">
-          {/*DealID, Company, Deal title, creator and created time */}
+          
           <span className="absolute top-[18px] text-xs text-gray-400">{deal.id}</span>
           <div className="flex items-center justify-between">
             <div className="w-[800px]">
-              <span className="text-s">{deal.company.name}</span>
+              <span className="text-s">{deal.title}</span>
               <FormField
                 control={form.control}
                 name="title"
@@ -132,15 +112,8 @@ export default function ViewDealForm({ deal }) {
                   </FormItem>
                 )}
               />
-              <p className="text-xs text-gray-400 dark:text-gray-400">
-                Created by{" "}
-                <span className="underline text-violet-900">
-                  {deal.owner ?? "Unknown"}
-                </span>{" "}
-                • {formatDistanceToNow(deal.createdAt)} ago
-              </p>
+            
             </div>
-            {/* Confirm. and an Edit Button*/}
             <div className="flex items-center gap-4">
               <Button
                 type="button"
@@ -148,19 +121,18 @@ export default function ViewDealForm({ deal }) {
                 size="icon"
                 onClick={() => handleClickDelete()}>
                 <Trash className="h-5 w-5 text-red-400" />
-                <span className="sr-only">Delete</span>
+                <span className="sr-only">Eliminar</span>
               </Button>
               <Button type="submit" variant="outline" size="icon">
                 <Check className="h-5 w-5 text-green-500" />
-                <span className="sr-only">Confirm</span>
+                <span className="sr-only">Confirmar</span>
               </Button>
             </div>
           </div>
-          {/* stages, value, closing date, last activity and assignee */}
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col gap-1">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Deal Stage
+                Estado de pedido
               </span>
               <FormField
                 control={form.control}
@@ -182,7 +154,7 @@ export default function ViewDealForm({ deal }) {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Deal Amount
+                Monto S/.
               </span>
               <FormField
                 control={form.control}
@@ -207,79 +179,15 @@ export default function ViewDealForm({ deal }) {
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Expected Close
+                
               </span>
-              <FormField
-                control={form.control}
-                name="closingDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            type="button"
-                            className={cn(
-                              "w-max justify-start h-max m-0 p-0 shadow-none text-left font-normal border-none",
-                              "text-[1.2rem] font-semibold",
-                              !field.value && "text-muted-foreground",
-                            )}>
-                            {field.value ? format(field.value, "PPP") : "Pick a date"}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={{ before: new Date() }}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            </div>
+            <div className="flex flex-col gap-1">
+              
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Last Activity
-              </span>
-              <div className="text-[1.2rem] font-semibold">
-                {format(deal.updatedAt, "PPP")}
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Next Steps
-              </span>
-              <FormField
-                control={form.control}
-                name="nextStep"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder="Spam the client"
-                        className={cn(
-                          "text-[1.2rem] font-semibold border-none py-0 px-0",
-                          "focus-visible:ring-opacity-0 shadow-none h-max",
-                        )}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Assignee
+                Asignado a
               </span>
               <FormField
                 control={form.control}
@@ -290,11 +198,8 @@ export default function ViewDealForm({ deal }) {
                       <DealPopovers setValue={form.setValue} options={assignees}>
                         <div className="flex items-center gap-2">
                           <Avatar className="h-7 w-7">
-                            <AvatarImage
-                              src={field.value.avatar}
-                              alt={`${field.value.name}'s Avatar`}
-                            />
-                            <AvatarFallback>JD</AvatarFallback>
+
+                            <AvatarFallback></AvatarFallback>
                           </Avatar>
                           <div>
                             <h3 className="font-medium">{field.value.name}</h3>
@@ -312,12 +217,12 @@ export default function ViewDealForm({ deal }) {
           <div className="flex gap-10">
             <div className="flex flex-col gap-2 w-56">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-                Contact Details
+                Cliente:
               </span>
               <div className="flex items-center gap-2">
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={deal.contact.avatar} alt="@shadcn" />
-                  <AvatarFallback>{deal.contact.firstName[0]}</AvatarFallback>
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <div>
                   <h3 className="text-s">{deal.contact.fullName}</h3>
@@ -332,41 +237,16 @@ export default function ViewDealForm({ deal }) {
                 </Avatar>
                 <div>
                   <p className="text-xs text-zinc-500 dark:text-gray-400">
-                    Email Address
+                    Email
                   </p>
                   <p className="text-s font-normal">{deal.contact.email}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-7 w-7">
-                  <AvatarImage src="/placeholder.svg" alt="@shadcn" />
-                  <AvatarFallback>
-                    <Phone size="16" className="text-[#767e70]" />
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-xs text-zinc-500 dark:text-gray-400">Phone Number</p>
-                  <p className="text-s font-normal">
-                    {deal.contact.phone ?? "0809898998"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-7 w-7">
-                  <AvatarImage src="/placeholder.svg" alt="@shadcn" />
-                  <AvatarFallback>
-                    <Globe2 size="16" className="text-[#767e70]" />
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-xs text-zinc-500 dark:text-gray-400">Source</p>
-                  <p className="text-s font-normal">LinkedIn</p>
-                </div>
-              </div>
+              
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-s font-medium text-zinc-500 dark:text-gray-400 ml-2">
-                Notes
+                Notas
               </span>
               <FormField
                 control={form.control}
@@ -394,7 +274,7 @@ export default function ViewDealForm({ deal }) {
           {/* Pipeline */}
           <div className="flex flex-col gap-3 col-span-3">
             <span className="text-s font-medium text-zinc-500 dark:text-gray-400">
-              Sales Pipeline
+              Seguimiento de pedido
             </span>
             <FormField
               control={form.control}
@@ -409,69 +289,7 @@ export default function ViewDealForm({ deal }) {
               )}
             />
           </div>
-          {/* Attachements */}
-          <div className="flex flex-col gap-3">
-            <h2 className="text-s font-medium text-zinc-500 dark:text-gray-400">Files</h2>
-            <section className="flex gap-2 items-center flex-wrap whitespace-normal">
-                {fields.map((field, index) => (
-                  <FormField
-                    control={form.control}
-                    key={field.id}
-                    name={`attachements.${index}`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                        <ContextMenu>
-                         <ContextMenuTrigger>
-                          <Button
-                            variant="outline"
-                            type="button"
-                            id={`attachements-button-${index}`}
-                            className="pl-1 pr-3 h-12 flex gap-2"
-                            onClick={() => {
-                              const url = field.value.url;
-                              window.open(url, '_blank', 'noopener,noreferrer');
-                            }}>
-                            <img src={fileTypeIcons.find((e) => e.mime === field.value.type).icon} alt="FileTypeIcon" />
-                            <div className="flex flex-col text-left">
-                              <span className="text-xs">{field.value.name}</span>
-                              <span className="text-xs text-neutral-80">{fileTypeIcons.find((e) => e.mime === field.value.type).name} &bull; Download</span>
-                            </div>
-                          </Button>
-                            </ContextMenuTrigger>
-                        <ContextMenuContent>
-                          <ContextMenuItem className="text-[0.8rem] text-justify" onSelect={() => document.getElementById(`attachements-button-${index}`).click()}>View in a new tab</ContextMenuItem>
-                          <ContextMenuItem disabled className="text-[0.8rem] text-justify">Replace</ContextMenuItem>
-                          <Separator />
-                          <ContextMenuItem className="text-[0.8rem] text-red-500 text-justify" onSelect={() => remove(index)}>Delete</ContextMenuItem>
-                         </ContextMenuContent>
-                            </ContextMenu>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-                <Input
-                  hidden
-                  type="file"
-                  id="attachements"
-                  onChange={(event) => {
-                    startUpload([event.target.files[0]]);
-                  }}
-                />
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="h-12 w-12"
-                  onClick={() => {
-                    // Imma do the forbidden, ,-,
-                    document.getElementById("attachements").click();
-                  }}>
-                  {isUploading ? <Spinner size="12" /> : <Plus size="16" />}
-                </Button>
-              </section>
-          </div>
+
         </div>
       </form>
     </Form>

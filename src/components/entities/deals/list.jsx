@@ -15,7 +15,7 @@ export default function DealList() {
 
   if (error) {
     console.error(error);
-    toast.error("Couldn't load deals 🤕")
+    toast.error("No se cargaron los clientes 🤕")
   }
   return (
     <div className="h-full flex-1 flex-col space-y-8 p-6 pt-3 mx-auto md:flex">

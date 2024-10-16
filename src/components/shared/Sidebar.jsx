@@ -153,9 +153,16 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         label="Contactos"
         to="/contacts"
         isSidebarOpen={isSidebarOpen}
-      />
+      /> 
       
       <NavItem icon={FaListUl} label="Tareas" to="/tasks" isSidebarOpen={isSidebarOpen} />
+
+      <NavItem
+        icon={FaUsers}
+        label="Pedidos"
+        to="/deals"
+        isSidebarOpen={isSidebarOpen}
+      />
 
     </VStack>
   );
